@@ -1,0 +1,61 @@
+Y para crear el store y el combineReducers utilizamos redux
+  npm i redux
+
+  Ejemplo:
+    Para combinar los reducers creamos un index.js e importamos 
+    import { combineReducers } from "redux";
+
+    y pasamos a combinar los reducers 
+    export default combineReducers({
+      reducer1,
+      reducer2,
+    });
+
+    Creación del storeGlobal
+    import { createStore } from "redux";
+    /*  lo nombro rootReducers al combineReducers
+        que exporto desde reducers/index.js */
+    import rootReducers from "./reducers";
+
+    const store = createStore(rootReducers);
+
+    export default store;
+
+
+utilizamos react-redux para el Provider y el connect
+  npm i react-redux
+
+  Ejemplo:
+    En el App.js utilizamos el Provider para envolver
+    los componentes que estaran afectados al store global
+    <Provider store={globalStore}>
+      <Component>
+    </Provider>
+
+    Pasamos a conectar el componente al store
+    import { connect } from "react-redux";
+
+    const Component = ({ atributo1, atributo2, modify }) => {
+    ....
+
+    };
+
+    const mapStateToProps = (state) => {
+      return {
+        // alias de las props de state.entidad
+        atributo1: state.entidad.atributo1,
+        atributo2: state.entidad.atributo2,
+      };
+    };
+
+    const mapDispatchToProps = (dispatch) => {
+      return {
+          // modify recibe el payload
+          modify: (payload) => { dispatch( modifyEntidad(payload) ) },
+      };
+    };
+
+    //Agregamos la funcionalidad de conexión al componente
+    export default connect(mapStateToProps, mapDispatchToProps)(Componente);
+
+
